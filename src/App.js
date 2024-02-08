@@ -2,7 +2,9 @@ import './App.css';
 import React, {useState} from 'react';
 import Tracklist from './components/Tracklist';
 import Playlist from "./components/Playlist";
-import SearchBar from "./components/SearchBar"
+import SearchBar from "./components/SearchBar";
+import SearchResults from "./components/SearchResults";
+import NewPlaylist from "./components/NewPlaylist";
 
 function App() {
     const tracks = [
@@ -37,21 +39,33 @@ function App() {
         }
     ];
 
-    const handleSearchClick = (trackName) => {
-        setSearchResults(tracks.filter(t => t.name === trackName));
+    const handleSearchTermChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleSearchClick = () => {
+        setSearchResults(tracks.filter(t => t.name === searchTerm));
+    };
+
+    const handleAddTrack = (trackId) => {
+        if (!selectedTracks.find(t => t.id === trackId)) {
+            setSelectedTracks([tracks.find(t => t.id === trackId), ...selectedTracks]);
+        }
     };
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [playlists, setPlaylists] = useState(playlistsInitial);
+    const [selectedTracks, setSelectedTracks] = useState([]);
+    const [newPlaylistName, setNewPlaylistName] = useState("");
 
     return (
         <div className="App">
             <Tracklist tracks={tracks}/>
             <Playlist playlists={playlists}/>
-            <SearchBar searchTerm={searchTerm} onClick={handleSearchClick}/>
-            <button>Save To Spotify</button>
-            <button>Search</button>
+            <SearchBar searchTerm={searchTerm} onChange={handleSearchTermChange} onClick={handleSearchClick}/>
+            <SearchResults tracks={searchResults} handleAddTrack={handleAddTrack}/>
+            <NewPlaylist tracks={selectedTracks} newPlaylistName={newPlaylistName}/>
         </div>
     );
 }

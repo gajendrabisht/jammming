@@ -1,8 +1,8 @@
-function SearchBar({searchTerm, onClick}) {
+function SearchBar({searchTerm, onChange, onClick}) {
     return (
         <div>
             <p>
-                <input type='text' value={searchTerm}/>
+                <input type="text" value={searchTerm} onChange={onChange}/>
                 <button onClick={onClick}>Search</button>
             </p>
         </div>
