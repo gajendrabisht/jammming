@@ -53,6 +53,25 @@ function App() {
         }
     };
 
+    const handleNewPlaylistName = (event) => {
+        setNewPlaylistName(event.target.value);
+    }
+
+    const handleCreateNewPlaylist = () => {
+        if (newPlaylistName == "" || selectedTracks.length == 0) {
+            alert("Name can't be empty OR tracks can't be empty");
+        } else if (playlists.find(p => p.name === newPlaylistName)) {
+            alert(`Playlist by name "${newPlaylistName}" alredy exists.. choose another name`);
+        } else {
+            let newPlaylist = {name: newPlaylistName, tracks: selectedTracks};
+            setPlaylists([...playlists, newPlaylist]);
+            setSearchTerm("");
+            setSearchResults([]);
+            setNewPlaylistName("");
+            setSelectedTracks([]);
+        }
+    }
+
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [playlists, setPlaylists] = useState(playlistsInitial);
@@ -65,7 +84,9 @@ function App() {
             <Playlist playlists={playlists}/>
             <SearchBar searchTerm={searchTerm} onChange={handleSearchTermChange} onClick={handleSearchClick}/>
             <SearchResults tracks={searchResults} handleAddTrack={handleAddTrack}/>
-            <NewPlaylist tracks={selectedTracks} newPlaylistName={newPlaylistName}/>
+            <NewPlaylist tracks={selectedTracks} newPlaylistName={newPlaylistName}
+                         handleNewPlaylistName={handleNewPlaylistName}
+                         handleCreateNewPlaylist={handleCreateNewPlaylist}/>
         </div>
     );
 }
