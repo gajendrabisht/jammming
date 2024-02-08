@@ -4,10 +4,10 @@ function SearchResults({tracks, handleAddTrack}) {
             <p style={{color: "blue"}}>Search Results:</p>
             <ul>
                 {
-                    tracks.map( track => (
+                    tracks.map(track => (
                         <li>
                             <p>{track.name} | {track.artist} | {track.album}</p>
-                            <button onClick={handleAddTrack(track.id)}>Add Song To New Playlist</button>
+                            <button onClick={() => handleAddTrack(track.id)}>Add Song To New Playlist</button>
                         </li>
                     ))
                 }
